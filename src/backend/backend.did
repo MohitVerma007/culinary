@@ -1,0 +1,40 @@
+type CulinaryAdventure = record {
+  id : nat64;
+  dish_name : text;
+  visit_date : nat64;
+  notes : text;
+  rating : float64;
+  restaurant_name : text;
+};
+type CulinaryAdventurePayload = record {
+  dish_name : text;
+  visit_date : nat64;
+  notes : text;
+  rating : float64;
+  restaurant_name : text;
+};
+type Error = variant { NotFound : record { msg : text } };
+type Result = variant { Ok : CulinaryAdventure; Err : Error };
+service : {
+  add_culinary_adventure : (CulinaryAdventurePayload) -> (
+      opt CulinaryAdventure,
+    );
+  delete_culinary_adventure : (nat64) -> (Result);
+  get_all_culinary_adventures : () -> (vec CulinaryAdventure) query;
+  get_culinary_adventure : (nat64) -> (Result) query;
+  get_culinary_adventures_before_date : (nat64) -> (
+      vec CulinaryAdventure,
+    ) query;
+  get_culinary_adventures_by_restaurant : (text) -> (
+      vec CulinaryAdventure,
+    ) query;
+  get_culinary_adventures_count_before_date : (nat64) -> (nat64) query;
+  get_top_rated_culinary_adventures : (nat64) -> (vec CulinaryAdventure) query;
+  get_total_culinary_adventures : () -> (nat64) query;
+  search_culinary_adventures_by_notes : (text) -> (vec CulinaryAdventure) query;
+  search_culinary_adventures_by_partial_dish_name : (text) -> (
+      vec CulinaryAdventure,
+    ) query;
+  update_culinary_adventure : (nat64, CulinaryAdventurePayload) -> (Result);
+  update_visit_date : (nat64, nat64) -> (Result);
+}
